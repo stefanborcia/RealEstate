@@ -20,6 +20,7 @@ namespace RealEstate.Controllers
         {
             return categories;
         }
+
         [HttpPost]
         public void Post([FromBody]Category category)
         {
@@ -29,7 +30,12 @@ namespace RealEstate.Controllers
         public void Put(int id, [FromBody] Category category)
         {
             categories[id] = category;
+        }
 
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            categories.RemoveAt(id);
         }
     }
 }
