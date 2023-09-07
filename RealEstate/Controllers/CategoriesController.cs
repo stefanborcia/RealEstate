@@ -14,5 +14,11 @@ namespace RealEstate.Controllers
             new Category { Id = 2,Name="Commercial", ImageUrl = "commercial.png"},
             new Category { Id = 3,Name="House", ImageUrl = "house.png"}
         };
+
+        [HttpGet]
+        public IEnumerable<Category> Get()
+        {
+            return categories;
+        }
     }
 }
