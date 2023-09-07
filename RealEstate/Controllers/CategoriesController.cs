@@ -24,6 +24,11 @@ namespace RealEstate.Controllers
         public void Post([FromBody]Category category)
         {
             categories.Add(category);
+        }
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] Category category)
+        {
+            categories[id] = category;
 
         }
     }
