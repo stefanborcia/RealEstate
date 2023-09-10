@@ -9,7 +9,7 @@ namespace RealEstate.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(local);Database=RealEstateDb;");
+            optionsBuilder.UseSqlServer(@"Server=(local);Database=RealEstateDb;Integrated Security=True;TrustServerCertificate=true");
         }
     }
 }
