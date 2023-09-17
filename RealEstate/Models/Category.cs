@@ -11,5 +11,6 @@ namespace RealEstate.Models
         [Required(ErrorMessage = "Image url can't be null or empty")]
         public string ImageUrl { get; set; }
         public string Description { get; set; }
+        public ICollection<Property>Properties { get; set; } // 1-Many relationship between Category and Property
     }
 }
