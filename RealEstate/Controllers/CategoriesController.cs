@@ -11,42 +11,50 @@ namespace RealEstate.Controllers
     {
         ApiDbContext _apiDbContext = new ApiDbContext();
 
+        //Get: api/<CategoriesController>
         [HttpGet]
-        public IEnumerable<Category> GetAll()
+        public IActionResult GetAll()
         {
-            return _apiDbContext.Categories;
+            return Ok(_apiDbContext.Categories);
         }
 
+        //Get: api/<CategoriesController>/1
         [HttpGet("{id}")]
-        public Category GetById(int id)
+        public IActionResult GetById(int id)
         {
-            return _apiDbContext.Categories.FirstOrDefault(c => c.Id == id);
+           var category = _apiDbContext.Categories.FirstOrDefault(c => c.Id == id);
+           return Ok(category);
         }
 
+        //Post: api/<CategoriesController>
         [HttpPost]
-        public void Post([FromBody]Category category)
+        public IActionResult Post([FromBody]Category category)
         {
             _apiDbContext.Categories.Add(category);
             _apiDbContext.SaveChanges();
+            return StatusCode(StatusCodes.Status201Created);
         }
 
+        //Put: api/<CategoriesController>/1
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Category categoryObj)
+        public IActionResult Put(int id, [FromBody] Category categoryObj)
         {
             var category = _apiDbContext.Categories.Find(id);
             category.Name = categoryObj.Name;
             category.Description = categoryObj.Description;
             category.ImageUrl= categoryObj.ImageUrl;
             _apiDbContext.SaveChanges();
+            return Ok("Record updated successfully");
         }
 
+        //Delete: api/<CategoriesController>/1
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
            var categoryDeleteById = _apiDbContext.Categories.Find(id);
            _apiDbContext.Categories.Remove(categoryDeleteById);
            _apiDbContext.SaveChanges();
-
+           return Ok("Record deleted");
         }
     }
 }
