@@ -22,13 +22,17 @@ namespace RealEstate.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-           var category = _apiDbContext.Categories.FirstOrDefault(c => c.Id == id);
-           return Ok(category);
+            var category = _apiDbContext.Categories.FirstOrDefault(c => c.Id == id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return Ok(category);
         }
 
         //Post: api/<CategoriesController>
         [HttpPost]
-        public IActionResult Post([FromBody]Category category)
+        public IActionResult Post([FromBody] Category category)
         {
             _apiDbContext.Categories.Add(category);
             _apiDbContext.SaveChanges();
@@ -40,9 +44,13 @@ namespace RealEstate.Controllers
         public IActionResult Put(int id, [FromBody] Category categoryObj)
         {
             var category = _apiDbContext.Categories.Find(id);
+            if (category == null)
+            {
+                return NotFound("No record found with this id" + id);
+            }
             category.Name = categoryObj.Name;
             category.Description = categoryObj.Description;
-            category.ImageUrl= categoryObj.ImageUrl;
+            category.ImageUrl = categoryObj.ImageUrl;
             _apiDbContext.SaveChanges();
             return Ok("Record updated successfully");
         }
@@ -51,10 +59,14 @@ namespace RealEstate.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-           var categoryDeleteById = _apiDbContext.Categories.Find(id);
-           _apiDbContext.Categories.Remove(categoryDeleteById);
-           _apiDbContext.SaveChanges();
-           return Ok("Record deleted");
+            var categoryDeleteById = _apiDbContext.Categories.Find(id);
+            if (categoryDeleteById == null)
+            {
+                return NotFound("No record found with this id" + id);
+            }
+            _apiDbContext.Categories.Remove(categoryDeleteById);
+            _apiDbContext.SaveChanges();
+            return Ok("Record deleted");
         }
     }
 }
