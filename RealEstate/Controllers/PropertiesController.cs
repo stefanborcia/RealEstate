@@ -11,7 +11,7 @@ namespace RealEstate.Controllers
     [ApiController]
     public class PropertiesController : ControllerBase
     {
-        private ApiDbContext _dbContext = new ApiDbContext();
+        private readonly ApiDbContext _dbContext = new ApiDbContext();
 
         [HttpPost]
         [Authorize]
@@ -71,6 +71,32 @@ namespace RealEstate.Controllers
             }
         }
 
+        [HttpDelete("{id}")]
+        [Authorize]
+        public IActionResult Delete(int id)
+        {
+            var propertyResult = _dbContext.Properties.FirstOrDefault(p => p.Id == id);
+            if (propertyResult == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                var userEmail = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+                var user = _dbContext.Users.FirstOrDefault(u => u.Email == userEmail);
+                if (user == null)
+                {
+                    return NotFound();
+                }
 
+                if (propertyResult.UserId == user.Id)
+                {
+                    _dbContext.Properties.Remove(propertyResult);
+                    _dbContext.SaveChanges();
+                    return Ok("Record deleted successfully");
+                }
+                return BadRequest();
+            }
+        }
     }
 }
