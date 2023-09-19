@@ -49,6 +49,18 @@ namespace RealEstate.Controllers
             return Ok(propertiesResult);
         }
 
+        [HttpGet("SearchProperties")]
+        [Authorize]
+        public IActionResult GetSearchProperties(string adress)
+        {
+            var propertiesResult = _dbContext.Properties.Where(p=>p.Address.Contains(adress));
+            if (propertiesResult == null)
+            {
+                return NotFound();
+            }
+            return Ok(propertiesResult);
+        }
+
         [HttpPost]
         [Authorize]
         public IActionResult Post([FromBody] Property property)
