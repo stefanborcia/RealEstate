@@ -37,6 +37,18 @@ namespace RealEstate.Controllers
             return Ok(propertiesResult);
         }
 
+        [HttpGet("TrendingProperties")]
+        [Authorize]
+        public IActionResult GetTrendingProperties()
+        {
+            var propertiesResult = _dbContext.Properties.Where(c => c.IsTrending ==true);
+            if (propertiesResult == null)
+            {
+                return NotFound();
+            }
+            return Ok(propertiesResult);
+        }
+
         [HttpPost]
         [Authorize]
         public IActionResult Post([FromBody] Property property)
