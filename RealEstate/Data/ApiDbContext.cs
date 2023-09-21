@@ -11,7 +11,7 @@ namespace RealEstate.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(local);Database=RealEstateDb;Integrated Security=True;TrustServerCertificate=true");
+            optionsBuilder.UseSqlServer(@"Data Source=SQL6031.site4now.net;Initial Catalog=db_a9f3b5_realstatedb;User Id=db_a9f3b5_realstatedb_admin;Password=stefan89");
         }
     }
 }
